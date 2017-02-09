@@ -2,12 +2,12 @@ import tcs34725
 from machine import I2C, Pin, unique_id
 import time
 import network
-#  from umqtt.simple import MQTTCLient
+from umqtt.simple import MQTTClient
 
 labNetwork = 'EEERover'
 labPassword = 'exhibition'
 brokerAddress = '192.168.0.10'
-
+deviceName = 'esp8266_' + str(unique_id(), 'utf-8')
 
 def connectWiFi(ssid, password):
     wlan = network.WLAN(network.STA_IF) # create station interface
@@ -24,23 +24,32 @@ def connectWiFi(ssid, password):
 
 connectWiFi(labNetwork, labPassword)
 
-#  client = MQTTCLient(machine.unique_id(), brokerAddress)
-#  client.connect()
-#  client.publish("Test topic", bytes('Text message', 'utf-8'))
-#  i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
+def sub_cb(topic,msg):
+    print(msg)
 
-#  sensor = tcs34725.TCS34725(i2c)
-#  sensor.gain(16)
-#  
-#  for _ in range(10):
-#      t = time.time()
-#      s = sensor.read(True)
-#      t = time.time() - t
-#      t += 1
-#      time.sleep(0.5)
-#      #print("%f" % t)
-#      print(s)
-#  
-#sensor.active(False)
+client = MQTTClient(deviceName, brokerAddress)
+client.set_callback(sub_cb)
+client.connect()
+client.subscribe('esys/TBA/sensor')
 
+i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
+sensor = tcs34725.TCS34725(i2c)
+sensor.gain(16)
 
+def convert_rgb_data(raw_rgb):
+    corrected_data = (raw_rgb[0]/0.88,raw_rgb[1]/0.66, raw_rgb[2]/0.57,raw_rgb[3]/1)
+    const = 255/1024
+    corrected_data = raw_rgb
+    corrected_data = (int(round(corrected_data[0]*const, 0)), int(round(corrected_data[1]*const, 0)), int(round(corrected_data[2]*const,0)), int(round(corrected_data[3]*const, 0)))
+    return corrected_data
+
+for _ in range(5):
+    s = sensor.read(True)
+    s = convert_rgb_data(s)
+    #print(s)
+    client.publish('esys/TBA/sensor', 'RGBC: (' + str(s[0]) + ', '+ str(s[1]) + ', ' + str(s[2]) + ', ' + str(s[3]) +')')
+    time.sleep_ms(100)
+    client.wait_msg()
+
+sensor.active(False)
+client.disconnect()
