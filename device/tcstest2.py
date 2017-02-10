@@ -55,6 +55,7 @@ while True:
     if allowReadPin.value() == 1:
         client.connect()
         client.subscribe('esys/TBA/sensor')
+#        client.subscribe('esys/time')
         s = sensor.read(True)
         s = convert_rgb_data(s)
         payload = json.dumps({'RGBC Data': {'R':s[0],'G':s[1],'B':s[2],'C':s[3]},'time':'4:20'})
