@@ -2,6 +2,7 @@ Things to DOOOO
 ===============
 
 ## Physical Part - David A.
+ -  [ ] Send data in json format to MQTT
  -  [ ] Testing to get color data (What range is the banana ripe or rotten)
  -  [ ] Decide which color palette to use + convert to it - YUV, HSL
  -  [ ] Box or case for the module
