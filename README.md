@@ -28,3 +28,11 @@ Things to DOOOO
  -  [ ] Pick a design
  -  [ ] Write cool bs text about it
  -  [ ] Add a few stock or not stock photos
+
+# Git cheatseet
+```
+git pull
+git add --all
+git commit -m "message about the changes made in this commit"
+git push
+```
