@@ -51,16 +51,26 @@ def convert_rgb_data(raw_rgb):
 #----------------------------------------Data reading and uploading-------------
 while True:
     if allowReadPin.value() == 1:           #If switch is on, read values
-        client.connect()
-        client.subscribe('esys/TBA/sensor') #Topic for data uploading
+        s = sensor.read(True)               #Allow sensor read 
+        s = convert_rgb_data(s)             #Convert obtained data
+        
+        client.connect()                    #Connect to MQTT server
         client.subscribe('esys/time')       #Topic for time of uploading
 
-        s = sensor.read(True)               
-        s = convert_rgb_data(s)
-                                        #Convert data to JSON format
-        payload = json.dumps({'RGBC Data': 
-            {'R':s[0],'G':s[1],'B':s[2],'C':s[3]},'time':'4:20'})
-        client.publish('esys/TBA/sensor',payload)   #Upload data
+        JSONTime = client.wait_msg()        #get time form server
+        decodedTime = json.loads(JSONTime)  #decode JSON encoded time 
+        time = decodedTime['time']          #get time as string
+        print decodedTime['time']           #print for debugging
+
+        client.subscribe('esys/TBA/sensor') #Topic for data uploading
+                                            #Convert data to JSON format
+        payload = json.dumps({'RGBC Data':
+            'R':s[0], 'G':s[1], 'B':s[2], 'C':s[3], 'time': time})
+
+        #payload = json.dumps({'RGBC Data': 
+        #    {'R':s[0],'G':s[1],'B':s[2],'C':s[3]},'time':'4:20'})
+
+        client.publish('esys/TBA/sensor', payload)   #Upload sensor data and time
         time.sleep_ms(100)
-        client.wait_msg()               #Read uploaded data for debugging
-        client.disconnect()             #Disconnect from the server
+        client.wait_msg()                   #Read uploaded data for debugging
+        client.disconnect()                 #Disconnect from the server
