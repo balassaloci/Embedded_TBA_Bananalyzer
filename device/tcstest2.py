@@ -40,8 +40,7 @@ client.set_callback(sub_cb)
 client.connect()
 client.subscribe('esys/time')
 JSONTime = client.wait_msg()        #get time form server
-print(JSONTime)
-#decodedTime = json.loads(JSONTime)  #decode JSON encoded time 
+dateAndTime = json.loads(JSONTime)  #decode JSON encoded time 
 
 client.disconnect()
 
