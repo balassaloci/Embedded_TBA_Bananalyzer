@@ -1,5 +1,5 @@
 import tcs34725
-from machine import I2C, Pin, unique_id
+from machine import I2C, Pin, unique_id, RTC
 import time
 import network
 from umqtt.simple import MQTTClient
@@ -32,9 +32,21 @@ connectWiFi(labNetwork, labPassword)    # connect to WiFi network
 #----------------------------------------MQTT client setup----------------------
 def sub_cb(topic,msg):                  # callback for debu
     print(msg)
+    return msg
 
 client = MQTTClient(deviceName, brokerAddress)
 client.set_callback(sub_cb)
+#----------------------------------------Internal clock setup-------------------
+client.connect()
+client.subscribe('esys/time')
+JSONTime = client.wait_msg()        #get time form server
+print(JSONTime)
+#decodedTime = json.loads(JSONTime)  #decode JSON encoded time 
+
+client.disconnect()
+
+#rtc = RTC()                             #Create internal clock class
+#rtc.init((2017, 2, 12[, 14]))
 #----------------------------------------RGB Sensor setup-----------------------
 i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
 sensor = tcs34725.TCS34725(i2c)
@@ -55,20 +67,13 @@ while True:
         s = convert_rgb_data(s)             #Convert obtained data
         
         client.connect()                    #Connect to MQTT server
-        client.subscribe('esys/time')       #Topic for time of uploading
-
-        JSONTime = client.wait_msg()        #get time form server
-        decodedTime = json.loads(JSONTime)  #decode JSON encoded time 
-        time = decodedTime['time']          #get time as string
-        print decodedTime['time']           #print for debugging
-
         client.subscribe('esys/TBA/sensor') #Topic for data uploading
                                             #Convert data to JSON format
-        payload = json.dumps({'RGBC Data':
-            'R':s[0], 'G':s[1], 'B':s[2], 'C':s[3], 'time': time})
+        #payload = json.dumps({'RGBC Data':
+        #    {'R':s[0], 'G':s[1], 'B':s[2], 'C':s[3]}, 'time': rtc.now()})
 
-        #payload = json.dumps({'RGBC Data': 
-        #    {'R':s[0],'G':s[1],'B':s[2],'C':s[3]},'time':'4:20'})
+        payload = json.dumps({'RGBC Data': 
+            {'R':s[0],'G':s[1],'B':s[2],'C':s[3]},'time':'4:20'})
 
         client.publish('esys/TBA/sensor', payload)   #Upload sensor data and time
         time.sleep_ms(100)
