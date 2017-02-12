@@ -1,0 +1,27 @@
+{% block content %}
+<html>
+  <head></head>
+  <body>
+    <p>Welcome, {{userName}}</p>
+    <div>
+      <form method="post" action="/">
+        <input name="channel" placeholder="Channel to subscribe to">
+        <input style="display: none;" name="message">
+        <input style="display: none;" name="messageChannel">
+        <input value="Subscribe" type="submit" > 
+      </form>
+      <br><br>
+    </div>
+    <div>
+      <form method="post" action="/">
+        <input name="messageChannel" placeholder="Destination channel">
+        <input type="msg" name="message" placeholder="Message to send">
+        <input style="display: none;" name="channel">
+        <!-- <input type="test" name="field2"> -->
+        <input value="Send message" type="submit">
+      </form>
+    </div>
+
+  </body>
+</html>
+
