@@ -37,15 +37,21 @@ def sub_cb(topic,msg):                  # callback for debu
 client = MQTTClient(deviceName, brokerAddress)
 client.set_callback(sub_cb)
 #----------------------------------------Internal clock setup-------------------
+
+def parseDate(a):
+    return int(a[0:4]), int(a[5:7]), int(a[8:10]), int(a[11:13]), int(a[14:16]), int(a[17:19]) 
+
 client.connect()
+
 client.subscribe('esys/time')
 JSONTime = client.wait_msg()        #get time form server
 dateAndTime = json.loads(JSONTime)  #decode JSON encoded time 
+dateString = dateAndTime["date"]
 
 client.disconnect()
 
-#rtc = RTC()                             #Create internal clock class
-#rtc.init((2017, 2, 12[, 14]))
+rtc = RTC()                             #Create internal clock class
+rtc.init(parseDate(dateString))
 #----------------------------------------RGB Sensor setup-----------------------
 i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
 sensor = tcs34725.TCS34725(i2c)
