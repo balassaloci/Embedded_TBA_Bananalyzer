@@ -1,12 +1,13 @@
 import tcs34725
-from machine import I2C, Pin, unique_id, RTC
+from machine import I2C, Pin, unique_id
+from machine import RTC
 import time
 import network
 from umqtt.simple import MQTTClient
 import json
 
 #To-Do: get time data from server
-
+date = 0, 0, 0, 0, 0, 0
 #----------------------------------------I/O pins-------------------------------
 allowReadPin = Pin(14, Pin.IN, None)    # Switch input pin14 without pull res.
 #----------------------------------------WiFi setup-----------------------------
@@ -30,28 +31,32 @@ def connectWiFi(ssid, password):
 
 connectWiFi(labNetwork, labPassword)    # connect to WiFi network
 #----------------------------------------MQTT client setup----------------------
+def parseDate(a):
+    return  int(a[0:4]), int(a[5:7]),   \
+            int(a[8:10]), int(a[11:13]),\
+            int(a[14:16]), int(a[17:19]) 
+
 def sub_cb(topic,msg):                  # callback for debu
     print(msg)
-    return msg
+    if topic == b'esys/time':
+        strMsg = msg.decode('utf-8')
+        dateAndTime = json.loads(strMsg)  #decode JSON encoded time 
+        global date
+        dateString = dateAndTime["date"]
+        date = parseDate(dateString)
+        print(date)
 
 client = MQTTClient(deviceName, brokerAddress)
 client.set_callback(sub_cb)
 #----------------------------------------Internal clock setup-------------------
-
-def parseDate(a):
-    return int(a[0:4]), int(a[5:7]), int(a[8:10]), int(a[11:13]), int(a[14:16]), int(a[17:19]) 
+rtc = RTC()
 
 client.connect()
-
 client.subscribe('esys/time')
-JSONTime = client.wait_msg()        #get time form server
-dateAndTime = json.loads(JSONTime)  #decode JSON encoded time 
-dateString = dateAndTime["date"]
-
+client.wait_msg()        #get time form server
 client.disconnect()
 
-rtc = RTC()                             #Create internal clock class
-rtc.init(parseDate(dateString))
+rtc.datetime((date[0], date[1], date[2], date[3], date[4], date[5], 0, 0))
 #----------------------------------------RGB Sensor setup-----------------------
 i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
 sensor = tcs34725.TCS34725(i2c)
