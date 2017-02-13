@@ -7,7 +7,6 @@ from umqtt.simple import MQTTClient
 import json
 
 date = 0, 0, 0, 0, 0, 0, 0, 0           # set global variable
-rgbcData = 0, 0, 0, 0
 #----------------------------------------I/O pins-------------------------------
 allowReadPin = Pin(14, Pin.IN, None)    # Switch input pin14 without pull res.
 #----------------------------------------WiFi setup-----------------------------
@@ -30,22 +29,29 @@ def connectWiFi(ssid, password):
     print('Network config', wlan.ifconfig())
 
 connectWiFi(labNetwork, labPassword)    # connect to WiFi network
-#----------------------------------------MQTT client setup----------------------
+#----------------------------------------Time parser----------------------------
 def parseDate(a):
     return  int(a[0:4]), int(a[5:7]),   \
             int(a[8:10]), int(a[11:13]),\
             int(a[14:16]), int(a[17:19]), 0, 0 
-
+#----------------------------------------Data uploading-------------------------
+def uploadData():
+    savedData= open('JSONData.txt', 'r')
+    JSONData = savedData.read()
+    client.publish('esys/TBA/sensor', JSONData)
+#----------------------------------------MQTT client setup----------------------
 def sub_cb(topic,msg):                  # callback for debu
     print(msg)                          #debug
-    if topic == b'esys/time':
+    if topic == b'esys/TBA/control' and msg == b'upload':
+        uploadData()
+    elif topic == b'esys/time':
         strMsg = msg.decode('utf-8')    # decode byte to str
         dateAndTime = json.loads(strMsg)# decode JSON encoded time 
         global date
         dateString = dateAndTime["date"]
         date = parseDate(dateString)
         print(date)                     #debug
-        
+
 client = MQTTClient(deviceName, brokerAddress)
 client.set_callback(sub_cb)
 #----------------------------------------Internal clock setup-------------------
@@ -70,28 +76,22 @@ def convert_rgb_data(raw_rgb):
                  int(round(raw_rgb[2]*const, 0)),
                  int(round(raw_rgb[3]*const, 0)))
     return raw_rgb
-#----------------------------------------Data uploading-------------------------
-#def uploadData():
-#    client.connect()
-#    client.subscribe('esys/TBA/sensor')
-#    client.publish('esys/TBA/sensor', upload.txt)
-#    client.disconnect()
 #----------------------------------------Data reading and storing---------------
 while True:
     if allowReadPin.value() == 1:           #If switch is on, read values
         s = sensor.read(True)               #Allow sensor read 
         s = convert_rgb_data(s)             #Convert obtained data
         
-        client.connect()                    #Connect to MQTT server
-        client.subscribe('esys/TBA/sensor') #Topic for data uploading
-        
         payload = json.dumps({'RGBC Data':{'R':s[0],'G':s[1],'B':s[2],'C':s[3]},
                                 'time': rtc.datetime()})
+
         dataToUpload = open('JSONData.txt', 'a')
         dataToUpload.write(payload)
         dataToUpload.close()
-
-        client.publish('esys/TBA/sensor', payload)  #Upload sensor data and time
-        time.sleep_ms(100)
-        #client.wait_msg()                   #Read uploaded data for debugging
+        
+        client.connect()                    #Connect to MQTT server
+        client.subscribe('esys/TBA/sensor/data')
+        client.subscribe('esys/TBA/sensor/control')
+        client.check_msg()
+        time.sleep(1)  
         client.disconnect()                 #Disconnect from the server
