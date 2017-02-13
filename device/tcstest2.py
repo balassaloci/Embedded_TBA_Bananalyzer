@@ -36,9 +36,12 @@ def parseDate(a):
             int(a[14:16]), int(a[17:19]), 0, 0 
 #----------------------------------------Data uploading-------------------------
 def uploadData():
-    savedData= open('JSONData.txt', 'r')
-    JSONData = savedData.read()
-    client.publish('esys/TBA/sensor/data', JSONData)
+    #  savedData= open('JSONData.txt', 'r')
+    with open('JSONData.txt', 'r') as savedData:
+        JSONData = savedData.read()
+        client.publish('esys/TBA/sensor/data', JSONData)
+    with open('JSONData.txt', 'w') as savedData:
+        pass
 #----------------------------------------MQTT client setup----------------------
 def sub_cb(topic,msg):                  # callback for debu
     print(msg)                          #debug
