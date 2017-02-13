@@ -16,7 +16,7 @@ function connectMQTT() {
 
   client.on('message', function (topic, message) {
     console.log(message.toString())
-    client.end()
+    // client.end()
   })
   return client;
 }
