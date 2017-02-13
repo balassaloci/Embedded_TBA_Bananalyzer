@@ -38,12 +38,13 @@ def parseDate(a):
 def uploadData():
     savedData= open('JSONData.txt', 'r')
     JSONData = savedData.read()
-    client.publish('esys/TBA/sensor', JSONData)
+    client.publish('esys/TBA/sensor/data', JSONData)
 #----------------------------------------MQTT client setup----------------------
 def sub_cb(topic,msg):                  # callback for debu
     print(msg)                          #debug
-    if topic == b'esys/TBA/control' and msg == b'upload':
+    if topic == b'esys/TBA/sensor/control' and msg == b'upload':
         uploadData()
+        print("Data sent")
     elif topic == b'esys/time':
         strMsg = msg.decode('utf-8')    # decode byte to str
         dateAndTime = json.loads(strMsg)# decode JSON encoded time 
@@ -90,8 +91,8 @@ while True:
         dataToUpload.close()
         
         client.connect()                    #Connect to MQTT server
-        client.subscribe('esys/TBA/sensor/data')
+        #  client.subscribe('esys/TBA/sensor/data')
         client.subscribe('esys/TBA/sensor/control')
-        client.check_msg()
-        time.sleep(1)  
+        client.wait_msg()
+        time.sleep(10)  
         client.disconnect()                 #Disconnect from the server
