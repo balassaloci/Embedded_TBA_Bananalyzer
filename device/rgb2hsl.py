@@ -24,8 +24,8 @@ def rgb2hsl(r, g, b):
         s = 0
         h = 0
 
-    h = round(h*60, 0)                              #convert to degrees
-    s = round(s*100, 0)                             #convert to %
-    l = round(l*100, 0)                             #convert to %
+    h = int(round(h*60, 0))                              #convert to degrees
+    s = int(round(s*100, 0))                           #convert to %
+    l = int(round(l*100, 0))                             #convert to %
 
     return h, s, l

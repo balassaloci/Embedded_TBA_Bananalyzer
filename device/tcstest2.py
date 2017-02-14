@@ -1,4 +1,5 @@
 import tcs34725
+import rgb2hsl
 from machine import I2C, Pin, unique_id
 from machine import RTC
 import time
@@ -77,25 +78,36 @@ def convert_rgb_data(raw_rgb):
     const = 255/1024                    #Convert 10 bit ADC data to 8 bit RGB
     raw_rgb = (  int(round(raw_rgb[0]*const, 0)), 
                  int(round(raw_rgb[1]*const, 0)),
-                 int(round(raw_rgb[2]*const, 0)),
-                 int(round(raw_rgb[3]*const, 0)))
-    return raw_rgb
+                 int(round(raw_rgb[2]*const, 0)))
+    return rgb2hsl.rgb2hsl(raw_rgb[0], raw_rgb[1], raw_rgb[2])
+def getColorName(hsl):
+    if (38<=hsl[0]<=61) and (30<=hsl[1]<=100):
+        return 'Yellow'
+    elif (80<=hsl[0]<=150) and (20<=hsl[1]<=60):
+        return 'Green'
+    elif (13<=hsl[0]<=36) and (30<=hsl[1]<=60):
+        return 'Brown'
+    else:
+        return 'Non-valid banana'
 #----------------------------------------Data reading and storing---------------
 while True:
     if allowReadPin.value() == 1:           #If switch is on, read values
         s = sensor.read(True)               #Allow sensor read 
-        s = convert_rgb_data(s)             #Convert obtained data
-        
-        payload = json.dumps({'RGBC Data':{'R':s[0],'G':s[1],'B':s[2],'C':s[3]},
-                                'time': rtc.datetime()})
+        raw_rgb = (s[0], s[1], s[2])
+        hsl = convert_rgb_data(raw_rgb)             #Convert obtained data
+        print(hsl)
+        colorName = getColorName(hsl)
+        print(colorName)
+        payload = json.dumps({'HSL Data':{'H':hsl[0],'S':hsl[1],'L':hsl[2]},
+                                'Banana color': colorName, 
+                                'Time': rtc.datetime()})
 
         dataToUpload = open('JSONData.txt', 'a')
         dataToUpload.write(payload)
         dataToUpload.close()
         
         client.connect()                    #Connect to MQTT server
-        #  client.subscribe('esys/TBA/sensor/data')
         client.subscribe('esys/TBA/sensor/control')
-        client.wait_msg()
-        time.sleep(10)  
+        #client.wait_msg()
+        time.sleep_ms(100)  
         client.disconnect()                 #Disconnect from the server
