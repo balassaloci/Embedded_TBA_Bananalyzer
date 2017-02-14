@@ -1,0 +1,179 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fnil\fcharset0 Calibri;\f1\froman\fcharset0 TimesNewRomanPSMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red255\green0\blue0;\red33\green33\blue33;\red5\green99\blue193;
+}
+\paperw12240\paperh15840\margl1417\margr1417\margb1417\margt1417\vieww12540\viewh15340\viewkind1
+\deftab720
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0\fs22 \cf2 \ul \ulc2 Hey David take all the text or some parts, as you want. All that is here has not been used in the report. (just the prices and components have been mentionned). But the marksheet asks for this so go for it. Cheers\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\qc\partightenfactor0
+
+\b\fs36 \cf0 \ulnone What is our product made off ?
+\f1 \
+\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0\b0\fs22 \cf0 \ul \ulc0 Components\'92 choice and price
+\f1 \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0 \cf0 \ulnone The core reason that lead the team\'92s choices was that the whole circuit needed to fit in a shoe sole, hence all components needed to be as low power and as physically small as possible. The circuit also needed to have as less components as possible. Hence, it was important that every component operated on the same range of voltages and currents in the circuit to avoid inserting additional components whose only functions would be to step up or down the voltage and current between the components
+\f1 .\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0\b \cf0 Microcontroller
+\f1 \uc0\u8232 
+\f0\b0 Choice : RFduino Rapid Dev DIP BLE : \'a318.71\uc0\u8232 Buy at : http://uk.rs-online.com/web/p/processor-microcontroller-development-kits/8011691/
+\f1 \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0 \cf0 This was the first component needed to be chosen as it was central in the circuit and its choice would influence the choice of other components.\uc0\u8232 After some research, the team realised creating its own Bluetooth module and couple it to a standard \'a32 microcontroller was not in its range of skills as second year students. 
+\f1 \uc0\u8232 
+\f0 Creating a CPB for the microcontroller\'92s use would also be too expensive (\'a340 per CPB print)
+\f1 .
+\f0  In addition, previous year projects that went down the road of creating their own PCB often succeeded after several prints because connections had been made wrongly, resulting in a cost over hundred pounds for the CPB prototyping only. Knowing the budget is limited at \'a3100, the team decided that taking this risk was not worth it
+\f1 .\uc0\u8232 
+\f0 Another issue was also the language in which to program the microcontroller. The easiest language to use was judged to be the Arduino language and most team members had already experienced coding with it in the first year project.  \uc0\u8232 
+\f1 \uc0\u8232 
+\f0 Hence we needed a microcontroller with an already built CPB and an integrated Bluetooth module that would be small, low power and Arduino compatible. It turned out this was not much to ask as many electronics business dedicate themselves to build the basic components that make up bigger projects, hence allowing their customers to gain time.
+\f1 \uc0\u8232 
+\f0 We choose to buy the RFduino which is a Bluetooth 4.0 low energy module with built-in ARM Cortex M0 microcontroller for \'93Rapid development and prototyping projects\'94 as said on its datasheet (see appendix) with enough output/input ports for our circuit.
+\f1 \
+\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0\b \cf0 Battery
+\f1 \uc0\u8232 
+\f0\b0 Choice : 
+\f2\fs20 \cf3 Varta 3.6V, 55608303059, V80H NiMH Rechargeable Coin Cell Battery, PCB Pin Terminal, 70mAh : \'a35.00\uc0\u8232 Buy at : http://uk.rs-online.com/web/p/coin-button-rechargeable-batteries/2286379/
+\f1\fs22 \cf0 \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0 \cf0 Knowing the battery needed to be rechargeable in order to collect the electrical energy created by the piezoelectric plates, they were different types of rechargeable batteries possible on the market. Since the battery is being charged by \'91trickle charge\'92 , it needed to be suited to receiving constant trickle charge. NiMh cells are known to be suited for this type of charge over a large lifetime. In addition, this battery is environmentally friendly since it contains only mild toxins that are profitable for recycling.\uc0\u8232 Lastly, Varta was chosen as a manufacturer because it delivers a very complete datasheet on its batteries.
+\f1 \
+\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0\b \cf0 Vibration motor
+\f1\b0 \uc0\u8232 
+\f0 Choice : Adafruit\'92s vibrating mini motor disc : \'a31.3  
+\f1 \uc0\u8232 
+\f0 Buy at : https://www.adafruit.com/product/1201
+\f1 \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0 \cf0 The vibrator needed to be small enough to fit in a shoe sole but powerful enough so that one could feel the vibrations with his foot. It is possible to quantify the vibration power of the motor but a real life test was better to understand if one could \'91feel\'92 the vibrations under his foot. After reading reviews about it, we ordered and tested it. The vibration were way over what we expected and the size was appropriate, so we ordered two more. We only needed one vibrator per shoe but we had to prepare for any testing error that would blow up a vibrator by buying one more.\uc0\u8232 It also needed to be able to work on low voltage and this motor was able to turn on down to 2V.
+\f1 \
+\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0\b \cf0 Piezoelectric plates\uc0\u8232 
+\b0 Choice :
+\f2\fs20 \cf3  RVFM ABT-441-RC Piezo Element Leaded 4200hz 27mm : 0.36\'a3\'a0\uc0\u8232 Buy at : http://www.rapidonline.com/audio-visual/rvfm-abt-441-rc-piezo-element-leaded-4200hz-27mm-35-0288
+\f1\b\fs22 \cf0 \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0\b0 \cf0 The only criteria of choice when harvesting electrical energy from piezoelectric plates is the size. Otherwise, the plates have all the same functions and their current and voltage output is proportional to their size. The frequency would only be relevant to us if the plate was used as a buzzer (sending a certain voltage frequency to the plate to create sound). 
+\f1 \uc0\u8232 
+\f0 We choose a diameter size of 3cm approximately because this allows us to fit two of those plates in the width of a shoe sole.We also choose to buy the plates with already soldered wires on them because wires can not be soldered on the ground element of the plate with the soldering material available in the 2\super nd\nosupersub  year electronics laboratory
+\f1 .\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\b \cf0 \uc0\u8232 \u8232 
+\f0 Diode\uc0\u8232 
+\b0 Choice : 1N914 PN junction diode : \'a30.013
+\f1 \uc0\u8232 
+\f0 Buy at : http://uk.rs-online.com/web/p/rectifier-schottky-diodes/8051019/
+\f1 \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0 \cf0 This is a standard PN junction diode with a forward voltage of 0.7V and a reverse breakdown voltage of 75V. Diodes are used in the full bridge rectifier and at the battery\'92s input. For those applications, there is no need for a big reverse recovery time (fast switching circuit use) and no need for a very low cut-in voltage as the piezo plate output voltage is very high as seen before. However, a lower cut-in voltage would still be beneficial but it would lead to a higher reverse current which we are looking to avoid. Since voltage is more abundant than current at the piezo plate\'92s output, the best trade-off is to keep the lower reverse current and higher cut-in voltage diode type. The only important criteria is that the reverse breakdown voltage needs to be large because there is times where the voltage drop across the diode will reach -60V because of the negative peak of the AC voltage waveform produced by the piezo plate. Hence, Zener diodes should not be used in this application because of their low reverse breakdown voltage (typically -17V) whereas PN junction diodes are preferred because of their high reverse breakdown voltage (typically -75V).
+\f1 \
+\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0\b \cf0 3V Linear regulator
+\f1 \uc0\u8232 
+\f0\b0 Choice : Taiwan Semiconductors TS2950/2951 150mA Ultra-LDO Voltage Regulators : \'a3
+\f1 0.
+\f0 3
+\f1 \uc0\u8232 
+\f0 Buy at : \cf4 \ul \ulc4 http://www.rapidonline.com/electronic-components/taiwan-semiconductors-ts2950-2951-150ma-ultra-ldo-voltage-regulators-538883
+\f1 \cf0 \ulnone \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0 \cf0 The linear regulator makes sure the microcontroller receives a constant voltage and current input from the battery to avoid any dysfunction because of current or voltage spikes.
+\f1 \
+\uc0\u8232 
+\f0\b Capacitor 1\'b5F
+\b0  
+\f1 \
+
+\f0 Used in the piezoelectrocity harvesting circuit\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f1 \cf0 \
+\uc0\u8232 
+\f0\b Standard switch
+\f1\b0 \uc0\u8232 
+\f0 Choice : RVFM H251A SPDT Vertical PCB Slide Switch : \'a30.683
+\f1 \uc0\u8232 
+\f0 Buy at : \cf4 \ul \ulc4 http://www.rapidonline.com/electronic-components/rvfm-h251a-spdt-vertical-pcb-slide-switch-76-0200
+\f1 \cf0 \ulnone \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0 \cf0 Used to turn ON/OFF the microcontroller\
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f1 \cf0 \
+\pard\pardeftab720\ri0\sl259\slmult1\sa160\partightenfactor0
+
+\f0 \cf0   
+\f1 \uc0\u8232 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+In HTML form\
+\
+                    <u>Components\'92 choice and price</u>\
+                    <p>The core reason that lead the team\'92s choices was that the whole circuit needed to fit in a shoe sole, hence all components needed to be as low power and as physically small as possible. The circuit also needed to have as less components as possible. Hence, it was important that every component operated on the same range of voltages and currents in the circuit to avoid inserting additional components whose only functions would be to step up or down the voltage and current between the components.</p>\
+                    <b>Microcontroller</b>\
+                    <p>Choice : RFduino Rapid Dev DIP BLE : \'a318.71, buy <a href="http://uk.rs-online.com/web/p/processor-microcontroller-development-kits/8011691/">here</a></p>\
+                    <p>This was the first component needed to be chosen as it was central in the circuit and its choice would influence the choice of other components.</p>\
+                    <p>After some research, the team realised creating its own Bluetooth module and couple it to a standard \'a32 microcontroller was not in its range of skills as second year students. </p>\
+                    <p>Creating a CPB for the microcontroller\'92s use would also be too expensive (\'a340 per CPB print). In addition, previous year projects that went down the road of creating their own PCB often succeeded after several prints because connections had been made wrongly, resulting in a cost over hundred pounds for the CPB prototyping only. Knowing the budget is limited at \'a3100, the team decided that taking this risk was not worth it.</p>\
+                    <p>Another issue was also the language in which to program the microcontroller. The easiest language to use was judged to be the Arduino language and most team members had already experienced coding with it in the first year project. </p>\
+                    <p>Hence we needed a microcontroller with an already built CPB and an integrated Bluetooth module that would be small, low power and Arduino compatible. It turned out this was not much to ask as many electronics business dedicate themselves to build the basic components that make up bigger projects, hence allowing their customers to gain time.</p>\
+                    <p>We chose to buy the RFduino which is a Bluetooth 4.0 low energy module with built-in ARM Cortex M0 microcontroller for \'93Rapid development and prototyping projects\'94 as said on its datasheet (see appendix) with enough output/input ports for our circuit.</p>\
+                    <b>Battery</b>\
+                    <p>Choice : Varta 3.6V, 55608303059, V80H NiMH Rechargeable Coin Cell Battery, PCB Pin Terminal, 70mAh : \'a35.00buy <a href="http://uk.rs-online.com/web/p/coin-button-rechargeable-batteries/2286379/">here</a></p>\
+                    <p>Knowing the battery needed to be rechargeable in order to collect the electrical energy created by the piezoelectric plates, they were different types of rechargeable batteries possible on the market. Since the battery is being charged by \'91trickle charge\'92 , it needed to be suited to receiving constant trickle charge. NiMh cells are known to be suited for this type of charge over a large lifetime. In addition, this battery is environmentally friendly since it contains only mild toxins that are profitable for recycling.</p>\
+                    <p>Lastly, Varta was chosen as a manufacturer because it delivers a very complete datasheet on its batteries.</p>\
+                    <b>Vibration motor</b>\
+                    <p>Choice : Adafruit\'92s vibrating mini motor disc : \'a31.3, buy <a href="https://www.adafruit.com/product/1201">here</a></p>\
+                    <p>The vibrator needed to be small enough to fit in a shoe sole but powerful enough so that one could feel the vibrations with his foot. It is possible to quantify the vibration power of the motor but a real life test was better to understand if one could \'91feel\'92 the vibrations under his foot. After reading reviews about it, we ordered and tested it. The vibration were way over what we expected and the size was appropriate, so we ordered two more. We only needed one vibrator per shoe but we had to prepare for any testing error that would blow up a vibrator by buying one more.</p>\
+                    <p>It also needed to be able to work on low voltage and this motor was able to turn on down to 2V.</p>\
+                    <b>Piezoelectric plates</b>\
+                    <p>Choice : RVFM ABT-441-RC Piezo Element Leaded 4200hz 27mm : 0.36\'a3, buy <a href="http://www.rapidonline.com/audio-visual/rvfm-abt-441-rc-piezo-element-leaded-4200hz-27mm-35-0288">here</a></p>\
+                    <p>The only criteria of choice when harvesting electrical energy from piezoelectric plates is the size. Otherwise, the plates have all the same functions and their current and voltage output is proportional to their size. The frequency would only be relevant to us if the plate was used as a buzzer (sending a certain voltage frequency to the plate to create sound).</p>\
+                    <p>We choose a diameter size of 3cm approximately because this allows us to fit two of those plates in the width of a shoe sole.We also choose to buy the plates with already soldered wires on them because wires can not be soldered on the ground element of the plate with the soldering material available in the 2nd year electronics laboratory.</p>\
+                    <b>Diode</b>\
+                    <p>Choice: 1N914 PN junction diode : \'a30.013, buy <a href="ttp://uk.rs-online.com/web/p/rectifier-schottky-diodes/8051019/">here</a></p>\
+                    <p>This is a standard PN junction diode with a forward voltage of 0.7V and a reverse breakdown voltage of 75V. Diodes are used in the full bridge rectifier and at the battery\'92s input. For those applications, there is no need for a big reverse recovery time (fast switching circuit use) and no need for a very low cut-in voltage as the piezo plate output voltage is very high as seen before. However, a lower cut-in voltage would still be beneficial but it would lead to a higher reverse current which we are looking to avoid. Since voltage is more abundant than current at the piezo plate\'92s output, the best trade-off is to keep the lower reverse current and higher cut-in voltage diode type. The only important criteria is that the reverse breakdown voltage needs to be large because there is times where the voltage drop across the diode will reach -60V because of the negative peak of the AC voltage waveform produced by the piezo plate. Hence, Zener diodes should not be used in this application because of their low reverse breakdown voltage (typically -17V) whereas PN junction diodes are preferred because of their high reverse breakdown voltage (typically -75V).</p>\
+                    <b>3V Linear regulator</b>\
+                    <p>Choice : Taiwan Semiconductors TS2950/2951 150mA Ultra-LDO Voltage Regulators : \'a30.3, buy <a href="http://www.rapidonline.com/electronic-components/taiwan-semiconductors-ts2950-2951-150ma-ultra-ldo-voltage-regulators-538883">here</a></p>\
+                    <p>The linear regulator makes sure the microcontroller receives a constant voltage and current input from the battery to avoid any dysfunction because of current or voltage spikes.</p>\
+                    <b>Capacitor 1\'b5F </b>\
+                    <p>Used in the piezoelectrocity harvesting circuit</p>\
+                    <b>Standard switch</b>\
+                    <p>Choice : RVFM H251A SPDT Vertical PCB Slide Switch : \'a30.683, buy <a href="http://www.rapidonline.com/electronic-components/rvfm-h251a-spdt-vertical-pcb-slide-switch-76-0200">here</a></p>\
+                    <p>Used to turn ON/OFF the microcontroller</p>}
