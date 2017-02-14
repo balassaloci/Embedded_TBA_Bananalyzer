@@ -4,13 +4,13 @@ Things to DOOOO
 ## Physical Part - David A.
  -  [x] Send data in json format to MQTT
  -  [ ] Testing to get color data (What range is the banana ripe or rotten)
- -  [ ] Decide which color palette to use + convert to it - YUV, HSL
- -  [ ] Box or case for the module
+ -  [x] Decide which color palette to use + convert to it - YUV, HSL
  -  [ ] Add temperature sensor
  
 ### Optional 
  -  [ ] Measure on request
- -  [ ] Separate the modules
+ -  [ ] Separate the modules 
+ -  [ ] Box or case for the module
  
 ## Website Backend - Nick
  -  [ ] Download and store MQTT data
@@ -25,9 +25,9 @@ Things to DOOOO
  -  [ ] Display the analysed info
  
 ## Business Website - David P., Loci
- -  [ ] Pick a design
- -  [ ] Write cool bs text about it
- -  [ ] Add a few stock or not stock photos
+ -  [x] Pick a design
+ -  [x] Write cool bs text about it
+ -  [x] Add a few stock or not stock photos
 
 # Git cheatseet
 How to push and pull code form /to github
