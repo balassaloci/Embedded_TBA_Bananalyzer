@@ -87,6 +87,7 @@ while True:
         dataToUpload.write(payload)
         dataToUpload.close()
         
+
         client.connect()                    #Connect to MQTT server
         client.subscribe('esys/TBA/sensor/control')
         client.wait_msg()
