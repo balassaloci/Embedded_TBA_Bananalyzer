@@ -3,7 +3,7 @@ Things to DOOOO
 
 ## Physical Part - David A.
  -  [x] Send data in json format to MQTT
- -  [ ] Testing to get color data (What range is the banana ripe or rotten)
+ -  [x] Testing to get color data (What range is the banana ripe or rotten)
  -  [x] Decide which color palette to use + convert to it - YUV, HSL
  -  [ ] Add temperature sensor
  
