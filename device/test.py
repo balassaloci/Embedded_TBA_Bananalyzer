@@ -1,35 +1,13 @@
 import tcs34725
 import rgb2hsl
-from machine import I2C, Pin, unique_id
-from machine import RTC
-import time
-import network
-from umqtt.simple import MQTTClient
 import json
+import time
+from machine import I2C, Pin, unique_id, RTC
+from umqtt.simple import MQTTClient
 
 date = 0, 0, 0, 0, 0, 0, 0, 0           # set global variable
 #----------------------------------------I/O pins-------------------------------
 allowReadPin = Pin(14, Pin.IN, None)    # Switch input pin14 without pull res.
-#----------------------------------------WiFi setup-----------------------------
-labNetwork = 'EEERover'
-labPassword = 'exhibition'
-brokerAddress = '192.168.0.10'
-deviceName = 'esp8266_' + str(unique_id(), 'utf-8')
-
-def connectWiFi(ssid, password):
-    wlan = network.WLAN(network.STA_IF) # create station interface
-    wlan.active(True)                   # activate the interface
-    if not wlan.isconnected():          # check if the station is connected
-        wlan.connect(ssid, password)    # connect to an AP
-        while not wlan.isconnected():
-            print('.', end = '')
-            time.sleep_ms(500)
-        print('Connected!')
-    wlan.config('mac')                  # get the interface's MAC adddress
-
-    print('Network config', wlan.ifconfig())
-
-connectWiFi(labNetwork, labPassword)    # connect to WiFi network
 #----------------------------------------Time parser----------------------------
 def parseDate(a):
     return  int(a[0:4]), int(a[5:7]),   \
@@ -37,13 +15,15 @@ def parseDate(a):
             int(a[14:16]), int(a[17:19]), 0, 0 
 #----------------------------------------Data uploading-------------------------
 def uploadData():
-    #  savedData= open('JSONData.txt', 'r')
     with open('JSONData.txt', 'r') as savedData:
         JSONData = savedData.read()
         client.publish('esys/TBA/sensor/data', JSONData)
     with open('JSONData.txt', 'w') as savedData:
         pass
 #----------------------------------------MQTT client setup----------------------
+deviceName = 'esp8266_' + str(unique_id(), 'utf-8')
+brokerAddress = '192.168.0.10'
+
 def sub_cb(topic,msg):                  # callback for debu
     print(msg)                          #debug
     if topic == b'esys/TBA/sensor/control' and msg == b'upload':
@@ -56,6 +36,7 @@ def sub_cb(topic,msg):                  # callback for debu
         dateString = dateAndTime["date"]
         date = parseDate(dateString)
         print(date)                     #debug
+        print('set as system time')
 
 client = MQTTClient(deviceName, brokerAddress)
 client.set_callback(sub_cb)
@@ -94,7 +75,7 @@ while True:
     if allowReadPin.value() == 1:           #If switch is on, read values
         s = sensor.read(True)               #Allow sensor read 
         raw_rgb = (s[0], s[1], s[2])
-        hsl = convert_rgb_data(raw_rgb)             #Convert obtained data
+        hsl = convert_rgb_data(raw_rgb)     #Convert obtained data
         print(hsl)
         colorName = getColorName(hsl)
         print(colorName)
@@ -108,6 +89,6 @@ while True:
         
         client.connect()                    #Connect to MQTT server
         client.subscribe('esys/TBA/sensor/control')
-        #client.wait_msg()
-        time.sleep_ms(100)  
+        client.wait_msg()
+        time.sleep(10)  
         client.disconnect()                 #Disconnect from the server
