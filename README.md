@@ -1,30 +1,30 @@
 Things to DOOOO 
 ===============
 
-## Physical Part - David A.
+## Physical Part - David A., David P.
  -  [x] Send data in json format to MQTT
  -  [x] Testing to get color data (What range is the banana ripe or rotten)
  -  [x] Decide which color palette to use + convert to it - YUV, HSL
- -  [ ] Add temperature sensor
+ -  [x] Analysis on the color (ripe or rotten)
  
 ### Optional 
  -  [x] Measure on request
- -  [ ] Separate the modules 
+ -  [ ] Add temperature sensor
+ -  [x] Make the code modular 
  -  [ ] Box or case for the module
  
 ## Website Backend - Nick
- -  [ ] Download and store MQTT data
+ -  [x] Download and store MQTT data
  -  [ ] Serve data in API for website
- -  [ ] Analysis on the color (ripe or rotten)
  
 ### Optional
- -  [ ] Button for forced measurement
+ -  [x] Button for forced measurement
  
-## Website Frontend - Loci, David P.
+## Website Frontend - Loci
  -  [ ] Display latest measurements on graph
  -  [ ] Display the analysed info
  
-## Business Website - David P., Loci
+## Business Website - David P.
  -  [x] Pick a design
  -  [x] Write cool bs text about it
  -  [x] Add a few stock or not stock photos
