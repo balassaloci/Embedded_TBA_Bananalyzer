@@ -18,11 +18,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.get('/receive', function(req, res) {
   var client = mqtt.connect('mqtt://192.168.0.10');
   client.on('connect', function(topic, message) {
-    client.subscribe('esys/TBA/x');
-    console.log('Listening to ' + 'esys/TBA/x');
+    client.publish("esys/TBA/sensor/control1", "upload");
+    client.subscribe('esys/TBA/sensor/data');
+    console.log('Listening to ' + 'esys/TBA/sensor/data');
   });
   var channel = req.query.channel;
   client.on('message', function(channel, msg) {
@@ -40,7 +42,7 @@ app.get('/control', function(req, res) {
     // client.subscribe('esys/TBA/x');
     console.log('Connected to MQTT')
     var command = req.query.cmd;
-    client.publish('esys/TBA/sensor/control', command);
+    client.publish('esys/TBA/sensor/control1', command);
     res.send('Success');
     client.end();
   });
