@@ -11,18 +11,22 @@ $('#updateButton').on('click', function(e) {
   //$('#sensorData').html('Waiting...')
   $.get('/receive', param, function(data) {
     if (useJSON) {
+      console.log('Received data: ' + data)
       jsonObject = data; //JSON.parse(data);
     } else {
       jsonObject = data;
     }
-    save(jsonObject);
+    save(data);
     //$('#sensorData').html('Data saved')
   });
 
 });
 
 function save(x) {
-  storage.push(x);
+  // storage.push(x);
+  x = (""+x).replace('},{', '}|{');
+  storage = (""+x).split("|");
+  // console.log('Storage is' + storage);
   updateChart(storage);
   // return storage.join("\n");
 }
@@ -32,9 +36,9 @@ function updateChart(dta) {
   var xs = [];
   var ys = [];
   for (var i = 0 ; i < dta.length; i++) {
-    console.log(dta[i]);
+    console.log("data line: " + dta[i]);
     jsonLine = JSON.parse(dta[i]);
-    console.log(jsonLine["HSL Data"]);
+    // console.log("HSL data: " + jsonLine["HSL Data"]);
     ys.push(jsonLine["HSL Data"]["H"]);
     xs.push(i);
   }

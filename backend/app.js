@@ -5,8 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mqtt = require('mqtt');
-var histData = [];
 var app = express();
+
+var histData = [];
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
