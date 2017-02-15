@@ -31,14 +31,14 @@ def getColorName(hsl):                  #Convert HSL code to colour names
         return 'Non-valid banana'
 
 def getRipeness(hsl):                   #map the used colour range to % 
-    if (80<=hsl[0]<=150) and (20<=hsl[1]<=60):
-        percent = int(round(100/116*(hsl[0]-80) + 39.6, 0))
+    if (80<=hsl[0]<=150) and (20<=hsl[1]<=60):      #green
+        percent = 100-int(round(100/116*(hsl[0]-80) + 39.6, 0))
         return percent
-    elif (38<=hsl[0]<=61) and (30<=hsl[1]<=100):
-        percent = int(round(100/116*(hsl[0]-38) + 19.8, 0))
+    elif (38<=hsl[0]<=61) and (30<=hsl[1]<=100):    #yellow
+        percent = 100-int(round(100/116*(hsl[0]-38) + 19.8, 0))
         return percent
-    elif (13<=hsl[0]<=36) and (30<=hsl[1]<=60):
-        percent = int(round(100/116*(hsl[0]-13), 0))
+    elif (13<=hsl[0]<=36) and (30<=hsl[1]<=60):     #brown
+        percent = 100-int(round(100/116*(hsl[0]-13), 0))
         return percent
     else:
         return 0
@@ -47,11 +47,11 @@ def takeMeasurement():
     s = sensor.read(True)               #Get sensor reading
     raw_rgb = (s[0], s[1], s[2])
     hsl = convert_rgb_data(raw_rgb)     #Convert obtained data
-    print("HSL: " + hsl)
+    print("H: %i, S: %i, L: %i"  %(hsl[0],hsl[1],hsl[2]))
     colorName = getColorName(hsl)
-    print(colorName)
+    print("Banana colour: " + colorName)
     ripeness = getRipeness(hsl)
-    print("Ripeness: "+ ripeness +"%")
+    print("Ripeness: %i %%" %(ripeness,))
     #convert data to JSON before uploading it to server
     payload = json.dumps({'HSL Data':{'H':hsl[0],'S':hsl[1],'L':hsl[2]},
                             'Banana color': colorName,
@@ -76,7 +76,9 @@ def sub_cb(topic,msg):                  # callback for wait_msg()
         global date
         dateString = dateAndTime["date"]
         date = parseDate(dateString)
-        print("System date set to: %s" % (date,))                     #debug
+        print("System date set to: %i-%i-%i %i:%i:%i" % (date[0],date[1],
+                                                         date[2],date[3],
+                                                         date[4],date[5],))
 
 deviceName = 'esp8266_' + str(unique_id(), 'utf-8')
 brokerAddress = '192.168.0.10'
@@ -87,6 +89,7 @@ rtc = RTC()
 
 client.connect()
 client.subscribe('esys/time')           #subscribe for time topic
+print("Waiting for time data from server...")
 client.wait_msg()                       #get time form server
 client.disconnect()
 
