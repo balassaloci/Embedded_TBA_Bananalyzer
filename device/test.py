@@ -86,12 +86,12 @@ while True:
                                 'Banana color': colorName, 
                                 'Time': rtc.datetime()})
 
-        dataToUpload = open('JSONData.txt', 'a')
-        dataToUpload.write(payload)
-        dataToUpload.close()
+        #dataToUpload = open('JSONData.txt', 'a')
+        #dataToUpload.write(payload)
+        #dataToUpload.close()
         
         client.connect()                    #Connect to MQTT server
         client.subscribe('esys/TBA/sensor/control1')
         client.wait_msg()
-        time.sleep(10)  
+        time.sleep_ms(100)
         client.disconnect()                 #Disconnect from the server
