@@ -11,7 +11,7 @@ $('#updateButton').on('click', function(e) {
   //$('#sensorData').html('Waiting...')
   $.get('/receive', param, function(data) {
     if (useJSON) {
-      jsonObject = JSON.parse(data);
+      jsonObject = data; //JSON.parse(data);
     } else {
       jsonObject = data;
     }
@@ -28,10 +28,14 @@ function save(x) {
 }
 
 function updateChart(dta) {
+  
   var xs = [];
   var ys = [];
   for (var i = 0 ; i < dta.length; i++) {
-    ys.push(dta[i]["HSL Data"]["H"]);
+    console.log(dta[i]);
+    jsonLine = JSON.parse(dta[i]);
+    console.log(jsonLine["HSL Data"]);
+    ys.push(jsonLine["HSL Data"]["H"]);
     xs.push(i);
   }
 

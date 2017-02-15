@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mqtt = require('mqtt');
-
+var histData = [];
 var app = express();
 
 // view engine setup
@@ -28,10 +28,13 @@ app.get('/receive', function(req, res) {
   });
   var channel = req.query.channel;
   client.on('message', function(channel, msg) {
-    message = msg;
+    message = String.fromCharCode.apply(null, msg);
+    histData.push(message);
+
     console.log('Got message ' + message);
-    console.log(message)
-    res.send(message);
+    console.log(message);
+    
+    res.send(histData);
     client.end();
   });
 });
