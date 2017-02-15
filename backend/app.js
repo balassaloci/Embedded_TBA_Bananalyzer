@@ -8,6 +8,7 @@ var mqtt = require('mqtt');
 var app = express();
 
 var histData = [];
+var bananaStats = {fresh: 1, rotten: 1, green: 1};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,7 +19,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 app.get('/receive', function(req, res) {
   var client = mqtt.connect('mqtt://192.168.0.10');
@@ -38,6 +38,26 @@ app.get('/receive', function(req, res) {
     res.send(histData);
     client.end();
   });
+});
+
+app.get("/eaten", function(req, res) {
+  console.log("entered EATEN");
+
+  var lastStatus = req.query.status;
+  if (lastStatus == "Yellow") {
+    bananaStats["fresh"] ++;
+  } else if (lastStatus == "Brown") {
+    bananaStats["rotten"] ++;
+  } else if (lastStatus == "Green") {
+    bananaStats["green"] ++;
+  }
+  console.log(bananaStats);
+
+  histData = [];
+  console.log("hist data reset");
+
+  res.send(bananaStats);
+
 });
 
 app.get('/control', function(req, res) {

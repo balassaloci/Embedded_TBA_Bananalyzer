@@ -3,10 +3,7 @@ type = ['','info','success','warning','danger'];
 storage = [];
 useJSON = true;
 
-$('#updateButton').on('click', function(e) {
-  //save(Math.floor((Math.random() * 100) + 1));
-  //return;
-
+function updateLive() {
   var param = {channel: 'esys/TBA/sensor/data'};
   //$('#sensorData').html('Waiting...')
   $.get('/receive', param, function(data) {
@@ -19,13 +16,56 @@ $('#updateButton').on('click', function(e) {
     save(data);
     //$('#sensorData').html('Data saved')
   });
+}
 
+$('#updateButton').on('click', function(e) {
+  updateLive();
 });
+
+$('#eatenBananaButton').on('click', function(e) {
+  var lastStatus = JSON.parse(storage[storage.length - 1])["Banana color"];
+
+  var param = {status: lastStatus};
+  $.get('/eaten', param, function(data) {
+    //console.log(data);
+
+    var totalNum = data["fresh"] + data["rotten"] + data["green"];
+    
+    Chartist.Pie('#chartPreferences', {
+      labels: [Math.round(100 * data["fresh"] / totalNum, 0) + "%",
+               Math.round(100 * data["rotten"] / totalNum, 0) + "%",
+               Math.round(100 * data["green"] / totalNum, 0) + "%"],
+      series: [data["fresh"], data["rotten"], data["green"]]
+    });
+    
+    updateLive();
+  });
+
+  
+});
+
+// function replaceAndSplit(s, a, b) {
+//   x = (""+x).replace('},{', '}|{');
+//   xsplit = (""+x).split("|");
+
+//   if (xsplit.length == 1) {
+//     return xsplit[0];
+//   } else {
+//     return xsplit[0].concat(replaceAndSplit(xsplit[1], a, b));
+//   }
+// }
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
 
 function save(x) {
   // storage.push(x);
-  x = (""+x).replace('},{', '}|{');
+  x = (""+x).replaceAll('},{', '}|{');
+  console.log(x);
   storage = (""+x).split("|");
+  console.log(storage);
   // console.log('Storage is' + storage);
   updateChart(storage);
   // return storage.join("\n");
@@ -35,21 +75,26 @@ function updateChart(dta) {
   
   var xs = [];
   var ys = [];
+  //console.log("FULL DATA");
+  //console.log(dta);
   for (var i = 0 ; i < dta.length; i++) {
-    console.log("data line: " + dta[i]);
+    //console.log("data line: " + dta[i]);
     jsonLine = JSON.parse(dta[i]);
-    // console.log("HSL data: " + jsonLine["HSL Data"]);
-    ys.push(jsonLine["HSL Data"]["H"]);
+    //console.log(jsonLine);
+    //console.log(jsonLine["HSL Data"]);
+
+    ys.push(jsonLine["Ripeness"]);
     xs.push(i);
   }
 
-  var lastData = storage[storage.length - 1];
+  var lastData = JSON.parse(dta[dta.length - 1]);
   //lastData = {'HSL Data':{'H':100,'S':45,'L':10}, 'Banana color': "Rotten", 'Time': "123"};
-  lastHsl = lastData["HSL Data"];
+  var lastHsl = lastData["HSL Data"];
   var hslString = "hsl(" + lastHsl["H"] + "," + lastHsl["S"] + "%," + lastHsl["L"] + "%)";
   //alert(hslString);
   //hslString = "hsl(100, 50%, 50%)";
   //$("#colorName").css({"background-color": hslString});
+  
   $("#colorName").css({"background": hslString });
   $("#colorName").text(lastData["Banana color"]);
   //var d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
