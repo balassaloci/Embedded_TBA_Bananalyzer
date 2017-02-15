@@ -21,24 +21,24 @@ def convert_rgb_data(raw_rgb):          #Convert 10 bit ADC data to 8 bit RGB
     return rgb2hsl.rgb2hsl(raw_rgb[0], raw_rgb[1], raw_rgb[2])
 
 def getColorName(hsl):                  #Convert HSL code to colour names
-    if (38<=hsl[0]<=61) and (30<=hsl[1]<=100):
-        return 'Yellow'                 #ranges are based on empirical data
-    elif (80<=hsl[0]<=150) and (20<=hsl[1]<=60):
+    if (80<=hsl[0]<=150) and (20<=hsl[1]<=60):
         return 'Green'
-    elif (13<=hsl[0]<=36) and (30<=hsl[1]<=60):
+    elif (40<=hsl[0]<=61) and (30<=hsl[1]<=100):
+        return 'Yellow'                 #ranges are based on empirical data
+    elif (13<=hsl[0]<=39) and (20<=hsl[1]<=60):
         return 'Brown'
     else:
         return 'Non-valid banana'
 
 def getRipeness(hsl):                   #map the used colour range to % 
     if (80<=hsl[0]<=150) and (20<=hsl[1]<=60):      #green
-        percent = 100-int(round(100/116*(hsl[0]-80) + 39.6, 0))
+        percent = 100-int(round(100/117*(hsl[0]-80) + 40.1, 0))
         return percent
-    elif (38<=hsl[0]<=61) and (30<=hsl[1]<=100):    #yellow
-        percent = 100-int(round(100/116*(hsl[0]-38) + 19.8, 0))
+    elif (40<=hsl[0]<=61) and (30<=hsl[1]<=100):    #yellow
+        percent = 100-int(round(100/117*(hsl[0]-40) + 22.2, 0))
         return percent
-    elif (13<=hsl[0]<=36) and (30<=hsl[1]<=60):     #brown
-        percent = 100-int(round(100/116*(hsl[0]-13), 0))
+    elif (13<=hsl[0]<=39) and (20<=hsl[1]<=60):     #brown
+        percent = 100-int(round(100/117*(hsl[0]-13), 0))
         return percent
     else:
         return 0
@@ -100,5 +100,4 @@ while True:
         client.connect()                #Connect to MQTT server
         client.subscribe('esys/TBA/sensor/control1')
         client.wait_msg()               #wait for 'upload' message from server
-        #time.sleep_ms(100)
         client.disconnect()             #Disconnect from the server

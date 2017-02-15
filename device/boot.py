@@ -1,5 +1,4 @@
 import network
-from machine import unique_id
 
 labNetwork = 'EEERover'
 labPassword = 'exhibition'
@@ -12,9 +11,8 @@ def connectWiFi(ssid, password):
         while not wlan.isconnected():
             print('.', end = '')
             time.sleep_ms(500)
-        print('Connected!')
     wlan.config('mac')                  # get the interface's MAC adddress
 
-    print('Network config', wlan.ifconfig())
+    print('Network is connected. Config:', wlan.ifconfig())
 
 connectWiFi(labNetwork, labPassword)    # connect to WiFi network
