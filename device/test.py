@@ -72,7 +72,20 @@ def getColorName(hsl):
     elif (13<=hsl[0]<=36) and (30<=hsl[1]<=60):
         return 'Brown'
     else:
-        return 'Non-valid banana'
+        return 'Non-valid banana', 0
+def getRipeness(hsl):
+    if (80<=hsl[0]<=150) and (20<=hsl[1]<=60):
+        percent = int(round(100/116*(hsl[0]-80) + 39.6, 0))
+        return percent
+    elif (38<=hsl[0]<=61) and (30<=hsl[1]<=100):
+        percent = int(round(100/116*(hsl[0]-38) + 19.8, 0))
+        return percent
+    elif (13<=hsl[0]<=36) and (30<=hsl[1]<=60):
+        percent = int(round(100/116*(hsl[0]-13), 0))
+        return percent
+    else:
+        return 0
+
 #----------------------------------------Data reading and storing---------------
 while True:
     if allowReadPin.value() == 1:           #If switch is on, read values
@@ -81,9 +94,12 @@ while True:
         hsl = convert_rgb_data(raw_rgb)     #Convert obtained data
         print(hsl)
         colorName = getColorName(hsl)
+        ripeness = getRipeness(hsl)
         print(colorName)
+        print(ripeness)
         payload = json.dumps({'HSL Data':{'H':hsl[0],'S':hsl[1],'L':hsl[2]},
                                 'Banana color': colorName, 
+                                'Ripeness': ripeness,
                                 'Time': rtc.datetime()})
 
         #dataToUpload = open('JSONData.txt', 'a')
