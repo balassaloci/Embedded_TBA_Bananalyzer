@@ -6,6 +6,7 @@ from machine import I2C, Pin, unique_id, RTC
 from umqtt.simple import MQTTClient
 
 date = 0, 0, 0, 0, 0, 0, 0, 0           # set global variable
+payload =""
 #----------------------------------------I/O pins-------------------------------
 allowReadPin = Pin(14, Pin.IN, None)    # Switch input pin14 without pull res.
 #----------------------------------------Time parser----------------------------
@@ -26,8 +27,10 @@ brokerAddress = '192.168.0.10'
 
 def sub_cb(topic,msg):                  # callback for debu
     print(msg)                          #debug
-    if topic == b'esys/TBA/sensor/control' and msg == b'upload':
-        uploadData()
+    if topic == b'esys/TBA/sensor/control1' and msg == b'upload':
+        #uploadData()
+        global payload
+        client.publish('esys/TBA/sensor/data', payload)
         print("Data sent")
     elif topic == b'esys/time':
         strMsg = msg.decode('utf-8')    # decode byte to str
@@ -87,9 +90,8 @@ while True:
         dataToUpload.write(payload)
         dataToUpload.close()
         
-
         client.connect()                    #Connect to MQTT server
-        client.subscribe('esys/TBA/sensor/control')
+        client.subscribe('esys/TBA/sensor/control1')
         client.wait_msg()
         time.sleep(10)  
         client.disconnect()                 #Disconnect from the server
