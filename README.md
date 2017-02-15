@@ -8,7 +8,7 @@ Things to DOOOO
  -  [ ] Add temperature sensor
  
 ### Optional 
- -  [ ] Measure on request
+ -  [x] Measure on request
  -  [ ] Separate the modules 
  -  [ ] Box or case for the module
  
