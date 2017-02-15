@@ -37,11 +37,9 @@ $('#eatenBananaButton').on('click', function(e) {
                Math.round(100 * data["green"] / totalNum, 0) + "%"],
       series: [data["fresh"], data["rotten"], data["green"]]
     });
-    
+
     updateLive();
   });
-
-  
 });
 
 // function replaceAndSplit(s, a, b) {

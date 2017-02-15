@@ -1,6 +1,8 @@
 #colorName {
     /*background-color: hsl(100, 50%, 50%);*/
     color: #FFFFFF;
+    padding: 10dp;
+    margin: 10dp;
 }
 
 @media (min-width: 992px){
