@@ -12,11 +12,10 @@ allowReadPin = Pin(14, Pin.IN, None)    # Switch input pin14 without pull res.
 i2c = I2C(scl=Pin(5), sda=Pin(4), freq=100000)
 sensor = tcs34725.TCS34725(i2c)
 sensor.gain(16)                         #gain: 1, 2, 16, 60
-
-#----------------------------------------Data conversion------------------------
+#----------------------------------------Data processing------------------------
 def convert_rgb_data(raw_rgb):          #Convert 10 bit ADC data to 8 bit RGB
     const = 255/1024
-    raw_rgb = (  int(round(raw_rgb[0]*const, 0)),
+    raw_rgb = (int(round(raw_rgb[0]*const, 0)),
                int(round(raw_rgb[1]*const, 0)),
                int(round(raw_rgb[2]*const, 0)))
     return rgb2hsl.rgb2hsl(raw_rgb[0], raw_rgb[1], raw_rgb[2])
@@ -31,7 +30,7 @@ def getColorName(hsl):                  #Convert HSL code to colour names
     else:
         return 'Non-valid banana'
 
-def getRipeness(hsl):               #map the used colour range to a percentage
+def getRipeness(hsl):                   #map the used colour range to % 
     if (80<=hsl[0]<=150) and (20<=hsl[1]<=60):
         percent = int(round(100/116*(hsl[0]-80) + 39.6, 0))
         return percent
@@ -43,7 +42,7 @@ def getRipeness(hsl):               #map the used colour range to a percentage
         return percent
     else:
         return 0
-#--------------------------------------Measurement---------------------------
+#----------------------------------------Taking measurement---------------------
 def takeMeasurement():
     s = sensor.read(True)               #Get sensor reading
     raw_rgb = (s[0], s[1], s[2])
@@ -94,9 +93,9 @@ client.disconnect()
 rtc.datetime((date))                    #set internal clock to server time
 #----------------------------------------Data reading and storing---------------
 while True:
-    if allowReadPin.value() == 1:           #If switch is on, read values
-        client.connect()                    #Connect to MQTT server
+    if allowReadPin.value() == 1:       #If switch is on, read values
+        client.connect()                #Connect to MQTT server
         client.subscribe('esys/TBA/sensor/control1')
-        client.wait_msg()                   #wait for upload message from server
-        time.sleep_ms(100)
-        client.disconnect()                 #Disconnect from the server
+        client.wait_msg()               #wait for 'upload' message from server
+        #time.sleep_ms(100)
+        client.disconnect()             #Disconnect from the server
