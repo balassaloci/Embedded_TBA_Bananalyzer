@@ -15,14 +15,14 @@ Things to DOOOO
  
 ## Website Backend - Nick
  -  [x] Download and store MQTT data
- -  [ ] Serve data in API for website
+ -  [x] Serve data in API for website
  
 ### Optional
  -  [x] Button for forced measurement
  
 ## Website Frontend - Loci
- -  [ ] Display latest measurements on graph
- -  [ ] Display the analysed info
+ -  [x] Display latest measurements on graph
+ -  [x] Display the analysed info
  
 ## Business Website - David P.
  -  [x] Pick a design
