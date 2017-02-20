@@ -5,7 +5,7 @@ import time
 from machine import I2C, Pin, unique_id, RTC
 from umqtt.simple import MQTTClient
 
-date = 0, 0, 0, 0, 0, 0, 0, 0           # set global variables for date and
+date = 0, 0, 0, 0, 0, 0, 0, 0           
 #----------------------------------------I/O pins-------------------------------
 allowReadPin = Pin(14, Pin.IN, None)    # Switch input pin14 without pull res.
 #----------------------------------------RGB Sensor setup-----------------------
@@ -88,16 +88,16 @@ client.set_callback(sub_cb)
 rtc = RTC()
 
 client.connect()
-client.subscribe('esys/time')           #subscribe for time topic
+client.subscribe('esys/time')
 print("Waiting for time data from server...")
-client.wait_msg()                       #get time form server
+client.wait_msg()
 client.disconnect()
 
 rtc.datetime((date))                    #set internal clock to server time
 #----------------------------------------Data reading and storing---------------
 while True:
     if allowReadPin.value() == 1:       #If switch is on, read values
-        client.connect()                #Connect to MQTT server
+        client.connect()
         client.subscribe('esys/TBA/sensor/control1')
         client.wait_msg()               #wait for 'upload' message from server
-        client.disconnect()             #Disconnect from the server
+        client.disconnect()
