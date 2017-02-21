@@ -151,9 +151,9 @@ demo = {
     initChartist: function(){    
         
         var dataSales = {
-          labels: [],
+          labels: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
           series: [
-             []
+             [93, 300, 59, 78, 24, 35, 73, 53, 82, 92, 15, 48, 20, 60, 82, 84, 94, 92, 2, 92]
           ]
         };
         
@@ -235,8 +235,8 @@ demo = {
         Chartist.Pie('#chartPreferences', dataPreferences, optionsPreferences);
         
         Chartist.Pie('#chartPreferences', {
-          labels: ['33%','33%','33%'],
-          series: [1,1,1]
+          labels: ['62%','32%','6%'],
+          series: [62, 32, 6]
         });   
     },
     

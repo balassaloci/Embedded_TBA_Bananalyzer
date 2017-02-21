@@ -1,33 +1,10 @@
+Embedded Systems 2017 TBA - Bananalyzer
+=======================================
+
+An IOT device that lets you know whether your banana has gone bad from anywhere in the world.
+
 Things to DOOOO 
 ===============
-
-## Physical Part - David A., David P.
- -  [x] Send data in json format to MQTT
- -  [x] Testing to get color data (What range is the banana ripe or rotten)
- -  [x] Decide which color palette to use + convert to it - YUV, HSL
- -  [x] Analysis on the color (ripe or rotten)
- 
-### Optional 
- -  [x] Measure on request
- -  [ ] Add temperature sensor
- -  [x] Make the code modular 
- -  [ ] Box or case for the module
- 
-## Website Backend - Nick
- -  [x] Download and store MQTT data
- -  [x] Serve data in API for website
- 
-### Optional
- -  [x] Button for forced measurement
- 
-## Website Frontend - Loci
- -  [x] Display latest measurements on graph
- -  [x] Display the analysed info
- 
-## Business Website - David P.
- -  [x] Pick a design
- -  [x] Write cool bs text about it
- -  [x] Add a few stock or not stock photos
 
 # Git cheatseet
 How to push and pull code form /to github
