@@ -3,9 +3,6 @@ Embedded Systems 2017 TBA - Bananalyzer
 
 An IOT device that lets you know whether your banana has gone bad from anywhere in the world.
 
-Things to DOOOO 
-===============
-
 # Git cheatseet
 How to push and pull code form /to github
 
